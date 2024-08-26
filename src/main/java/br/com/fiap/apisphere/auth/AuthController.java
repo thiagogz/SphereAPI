@@ -1,15 +1,11 @@
 package br.com.fiap.apisphere.auth;
 
 import br.com.fiap.apisphere.user.UserRepository;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @RestController
 public class AuthController {
@@ -31,16 +27,7 @@ public class AuthController {
         if ( !passwordEncoder.matches(credentials.password(), user.getPassword()) )
             throw new RuntimeException("Access Denied");
 
-        var expiresAt = LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.ofHours(-3));
-        Algorithm algorithm = Algorithm.HMAC256("assinatura");
-        String token = JWT.create()
-                .withIssuer("sphere")
-                .withSubject(credentials.email())
-                .withClaim("role", "admin")
-                .withExpiresAt(expiresAt)
-                .sign(algorithm);
-
-        return new Token(token);
+        return TokenService.createToken(user);
     }
 
 }
