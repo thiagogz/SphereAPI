@@ -12,10 +12,12 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -27,7 +29,7 @@ public class AuthController {
         if ( !passwordEncoder.matches(credentials.password(), user.getPassword()) )
             throw new RuntimeException("Access Denied");
 
-        return TokenService.createToken(user);
+        return tokenService.create(user);
     }
 
 }

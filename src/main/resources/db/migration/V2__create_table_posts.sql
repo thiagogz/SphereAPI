@@ -1,3 +1,4 @@
+
 CREATE TABLE posts (
    id BIGINT AUTO_INCREMENT,
    text VARCHAR(255),

@@ -9,12 +9,14 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Data
 public class User {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String bio;
     String email;
     String password;
+    String avatar;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
