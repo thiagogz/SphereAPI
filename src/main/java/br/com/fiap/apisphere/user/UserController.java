@@ -1,6 +1,7 @@
 package br.com.fiap.apisphere.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,8 @@ public class UserController {
     UserService service;
 
     @GetMapping
-    public List<User> findAll(){
+    public List<User> findAll(@RequestParam(required = false) String name){
+        if (name != null) return service.findByName(name);
         return service.findAll();
     }
 
@@ -47,6 +49,11 @@ public class UserController {
     public void updateAvatar(@RequestBody MultipartFile file){
         var email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         service.updateAvatar(email, file);
+    }
+
+    @GetMapping("avatar/{filename}")
+    public ResponseEntity<Resource> getAvatar(@PathVariable String filename){
+        return service.getAvatar(filename);
     }
 
 }

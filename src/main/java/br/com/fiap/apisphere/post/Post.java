@@ -1,7 +1,10 @@
 package br.com.fiap.apisphere.post;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +13,9 @@ import br.com.fiap.apisphere.user.User;
 @Entity
 @Table(name = "posts")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
